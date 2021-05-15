@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { ErrorMsgComponent } from './error-msg/error-msg.component';
 import { InputComponent } from './input/input.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { InputComponent } from './input/input.component';
     HomePageComponent,
     ReactiveFormComponent,
     ErrorMsgComponent,
-    InputComponent
+    InputComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

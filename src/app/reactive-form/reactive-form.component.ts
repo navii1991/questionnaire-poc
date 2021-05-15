@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive-form',
@@ -101,23 +101,10 @@ export class ReactiveFormComponent implements OnInit {
     }
   }
 
-  constructor(private formBuilder: FormBuilder) { 
-    // for(let i=0;i<this.formElem.length;i++){
-    //   this.formElem[i].name = new FormControl('')
-    // }
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    let formArray : any;
-    // this.formElem.forEach(elem=>{
-    //   var name1 = elem.name;
-    //   this.registrationForm = this.formBuilder.group({
-    //     firstName: new FormControl(''),
-    //     name1: new FormControl(''),
-    //   });
-    //   console.log(formArray);
-    // })
-    
+
     this.registrationForm = this.formBuilder.group({
       title: ['',Validators.required],
       firstName: ['',[Validators.required, Validators.pattern('[A-Za-z]{3}')]],

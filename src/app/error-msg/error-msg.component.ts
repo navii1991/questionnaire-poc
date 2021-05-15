@@ -9,23 +9,17 @@ import { FormControl, PatternValidator } from '@angular/forms';
 export class ErrorMsgComponent implements OnInit {
 
   @Input() ctrl: any = new FormControl;
-
   @Input() name: string = "";
-
   @Input() submitted: boolean = false;
-
 
   ERROR_MESSAGE: any = {
     required: (par?:any, name?:string) => `${name} is required`,
     minlength: (par?:any,name?:string) => `Min ${par.requiredLength} chars is required`,
     mustMatch: (par?:any,name?:string) => `Confirm password must match`,
-    pattern: (par?:any, name?:string) =>  `${name} is not valid`,
-   // email: (par?:any, name?:string) =>  `${name} is not valid`
+    pattern: (par?:any, name?:string) =>  `${name} is not valid`
   };
 
-  constructor() { 
-    //this.ctrl = new FormControl();
-  }
+  constructor() {}
 
   ngOnInit() { }
 
@@ -34,9 +28,6 @@ export class ErrorMsgComponent implements OnInit {
   }
 
   listOfErrors(): string[] {
-    // return Object.keys(this.ctrl.errors).map(
-    //   err => this.ERROR_MESSAGE[err](this.ctrl.getError(err))
-    // );
     let name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
     let msgArr = [];
     for (const item in this.ctrl.errors) {

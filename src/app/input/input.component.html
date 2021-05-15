@@ -12,9 +12,6 @@
                         class="{{elem.class}}" required="{{elem.required}}" />
                 </label>
             </ng-container>
-            <!-- <div *ngIf="submitted && f.gender.errors" class="text-danger">
-                <div *ngIf="f.gender.errors.required">Specify your gender</div>
-            </div> -->
         </ng-container>
         <ng-container *ngSwitchCase="'checkbox'">
             <label>
@@ -22,9 +19,6 @@
                 <input type="checkbox" name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
                     value="{{elem.name}}" required="{{elem.required}}" />
             </label>
-            <!-- <div *ngIf="submitted && f.agree.errors" class="text-danger">
-                <div *ngIf="f.agree.errors.required">Agree with T&C</div>
-            </div> -->
         </ng-container>
         <ng-container *ngSwitchCase="'select'">
             <label>
@@ -35,63 +29,13 @@
                     <option *ngFor="let opt of elem.option" value="{{opt}}">{{opt}}</option>
                 </select>
             </label>
-            <!-- <div *ngIf="submitted && f.agree.errors" class="text-danger">
-                <div *ngIf="f.agree.errors.required">Agree with T&C</div>
-            </div> -->
         </ng-container>
         <ng-container *ngSwitchDefault>
             <label>
                 {{elem.label}}:
                 <input type="{{elem.type}}" name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
                     value="{{elem.name}}" required="{{elem.required}}" />
-            </label>
-
-
-            <!-- validation errors on submit -->
-            <!-- <ng-container *ngIf="elem.name=='firstName'">
-                <div *ngIf="submitted && f.firstName.errors" class="text-danger">
-                    <div *ngIf="f.firstName.errors.required">First name is required</div>
-                    <div *ngIf="f.firstName.errors.pattern">Date of Birth must be a valid date in the format YYYY-MM-DD
-                    </div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="elem.name=='lastName'">
-                <div *ngIf="submitted && f.lastName.errors" class="text-danger">
-                    <div *ngIf="f.lastName.errors.required">Last name is required</div>
-                    <div *ngIf="f.lastName.errors.pattern">Date of Birth must be a valid date in the format YYYY-MM-DD
-                    </div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="elem.name=='email'">
-                <div *ngIf="submitted && f.email.errors" class="text-danger">
-                    <div *ngIf="f.email.errors.required">Email is required</div>
-                    <div *ngIf="f.email.errors.pattern">Date of Birth must be a valid date in the format YYYY-MM-DD
-                    </div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="elem.name=='password'">
-                <div *ngIf="submitted && f.password.errors" class="text-danger">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="elem.name=='confirmPassword'">
-                <div *ngIf="submitted && f.confirmPassword.errors" class="text-danger">
-                    <div *ngIf="f.confirmPassword.errors.required">Confirm your password</div>
-                    <div *ngIf="f.confirmPassword.errors.pattern">Date of Birth must be a valid date in the format
-                        YYYY-MM-DD</div>
-                    <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="elem.name=='dob'">
-                <div *ngIf="submitted && f.dob.errors" class="text-danger">
-                    <div *ngIf="f.dob.errors.required">Date of Birth is required</div>
-                    <div *ngIf="f.dob.errors.pattern">Date of Birth must be a valid date in the format YYYY-MM-DD</div>
-                </div>
-            </ng-container> -->
-            <!-- validation errors on submit -->
-
-            
+            </label>            
         </ng-container>
     </ng-container>
 </ng-container>
