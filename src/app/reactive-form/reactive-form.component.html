@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-8 reactive-form-container">
+        <h3 class="mb-5">{{form.name}}</h3>
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            <ng-container *ngFor="let elem of form.formElem let i=index">
+               <app-input [elem]="elem" [form]="registrationForm" [submitted]="submitted" [f]="f" ></app-input>
+               <app-error-msg [ctrl]="registrationForm.get(elem.name)" [name]="elem.label" [submitted]="submitted" ></app-error-msg>
+               <br>
+            </ng-container>
+            <!-- {{registrationForm.value | json}}
+            {{registrationForm.valid}} -->
+            <button [disabled]="!registrationForm.valid" class="{{form.formButton.class}}"
+                type="{{form.formButton.type}}">{{form.formButton.name}}</button>
+        </form>
+    </div>
+</div>
