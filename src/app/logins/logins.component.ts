@@ -8,6 +8,7 @@ import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUs
 })
 export class LoginsComponent implements OnInit {
   
+  signInTitle: string = 'Sign in';
   btnDisabled = false;
   socialUser: SocialUser = {
     provider: '',
@@ -23,6 +24,45 @@ export class LoginsComponent implements OnInit {
     response: {}
 };
   isLoggedin: boolean = false;
+  loggedInDetails = false;
+  
+  form = {
+    name: "Reactive Form",
+    formElem: [
+      {
+        type: 'email',
+        label: 'email',
+        name: 'email',
+        class: 'form-control',
+        callback: '',
+        option: '',
+        required: true
+      },
+      {
+        type: 'password',
+        label: 'password',
+        name: 'password',
+        class: 'form-control',
+        callback: '',
+        option: '',
+        required: true
+      },
+      {
+        type: 'checkbox',
+        label: 'Accept Terms & Conditions',
+        name: 'agree',
+        class: 'mt-3 ml-3',
+        callback: '',
+        option: '',
+        required: true
+      }
+    ],
+    formButton: {
+      name: 'submit',
+      class: 'form-control btn btn-success btn-lg mt-5',
+      type: 'submit'
+    }
+  }
 
   constructor(private socialAuthService: SocialAuthService) { }
 
@@ -34,19 +74,32 @@ export class LoginsComponent implements OnInit {
     });
   }
 
-  signIn(formData:object, isFormValid:boolean|null) {
+  //get f() { return this.loginForm.controls; }
+
+  signIn(formData:any, isFormValid:boolean|null) {
     this.isLoggedin = true;
-    console.log(formData);
-    console.log(isFormValid);
+    if(isFormValid) {
+      this.loggedInDetails = true;
+      this.signInTitle = 'Sign in using Email';
+      this.socialUser.name = formData.email;
+      this.socialUser.email = formData.email;
+      this.socialUser.photoUrl = 'https://via.placeholder.com/90';
+      console.log(formData);
+      console.log(isFormValid);
+    }    
   }
   
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
     if (socialPlatform === 'facebook') {
+      this.signInTitle = 'Sign in using Facebook';
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+      this.loggedInDetails = true;
     } else if (socialPlatform === 'google') {
       //socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+      this.signInTitle = 'Sign in using Google';
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+      this.loggedInDetails = true;
     }
 
     // this.socialAuthService.signIn(socialPlatformProvider).then(
@@ -65,8 +118,9 @@ export class LoginsComponent implements OnInit {
   //   this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   // }
   logOut(): void {
-    this.socialAuthService.signOut();
-    this.isLoggedin = false; 
+    this.isLoggedin = false;
+    this.loggedInDetails = false;
+    this.socialAuthService.signOut(); 
   }
 
 }
