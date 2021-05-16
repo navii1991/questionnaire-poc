@@ -70,6 +70,7 @@ export class LoginsComponent implements OnInit {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUser = user;
       this.isLoggedin = (user != null);
+      this.loggedInDetails = true;
       console.log(this.socialUser);
     });
   }
@@ -94,12 +95,10 @@ export class LoginsComponent implements OnInit {
     if (socialPlatform === 'facebook') {
       this.signInTitle = 'Sign in using Facebook';
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-      this.loggedInDetails = true;
     } else if (socialPlatform === 'google') {
       //socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
       this.signInTitle = 'Sign in using Google';
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-      this.loggedInDetails = true;
     }
 
     // this.socialAuthService.signIn(socialPlatformProvider).then(
