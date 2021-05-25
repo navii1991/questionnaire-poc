@@ -1,20 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { HttpClientModule } from '@angular/common/http'
+
 import { AppComponent } from './app.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { ErrorMsgComponent } from './error-msg/error-msg.component';
 import { InputComponent } from './input/input.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginsComponent } from './logins/logins.component';
-
-import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { TemplateFormComponent } from './template-form/template-form.component';
+import { BuildFormComponent } from './build-form/build-form.component';
+import { ImgGalleryComponent } from './img-gallery/img-gallery.component';
+import { LazyLoadDirective } from './directive/lazy-load.directive';
+import { ScrollDirective } from './directive/scroll.directive';
 
 @NgModule({
   declarations: [
@@ -26,14 +31,20 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
     InputComponent,
     NavbarComponent,
     PageNotFoundComponent,
-    LoginsComponent
+    LoginsComponent,
+    TemplateFormComponent,
+    BuildFormComponent,
+    ImgGalleryComponent,
+    LazyLoadDirective,
+    ScrollDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    HttpClientModule
   ],
   providers: [
     {

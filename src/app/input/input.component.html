@@ -1,41 +1,37 @@
-<ng-container [formGroup]="registrationForm">
-    <ng-container [ngSwitch]="elem.type">
-        <ng-container *ngSwitchCase="'radio'">
-            <label>
-                {{elem.label}}:
-            </label>
-            <br>
-            <ng-container *ngFor="let x of elem.option let j=index">
-                <label>
-                    {{x}}:
-                    <input type="radio" value="{{x}}" name="{{elem.name}}" formControlName="{{elem.name}}"
-                        class="{{elem.class}}" required="{{elem.required}}" />
-                </label>
-            </ng-container>
-        </ng-container>
-        <ng-container *ngSwitchCase="'checkbox'">
-            <label>
-                {{elem.label}}:
-                <input type="checkbox" name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
-                    value="{{elem.name}}" required="{{elem.required}}" />
-            </label>
-        </ng-container>
-        <ng-container *ngSwitchCase="'select'">
-            <label>
-                {{elem.label}}:
-                <select name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
-                    value="{{elem.name}}" required="{{elem.required}}" >
-                    <option value="">Select</option>
-                    <option *ngFor="let opt of elem.option" value="{{opt}}">{{opt}}</option>
-                </select>
-            </label>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-            <label>
-                {{elem.label}}:
-                <input type="{{elem.type}}" name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
-                    value="{{elem.name}}" required="{{elem.required}}" />
-            </label>            
-        </ng-container>
-    </ng-container>
+<ng-container *ngIf="isReactive" [ngSwitch]="elem2.type" [formGroup]="registrationForm">
+
+    <input *ngSwitchCase="'radio'" type="radio" value="{{x}}" name="{{elem2.name}}" formControlName="{{elem2.name}}"
+        class="{{elem2.class}}" required="{{elem2.required}}" />
+
+    <input *ngSwitchCase="'checkbox'" type="checkbox" name="{{elem2.name}}" formControlName="{{elem2.name}}"
+        class="{{elem2.class}}" value="{{elem2.name}}" required="{{elem2.required}}" />
+
+    <select *ngSwitchCase="'select'" name="{{elem2.name}}" formControlName="{{elem2.name}}" class="{{elem2.class}}"
+        value="{{elem2.name}}" required="{{elem2.required}}">
+        <option value="">Select</option>
+        <option *ngFor="let opt of elem2.option" value="{{opt}}">{{opt}}</option>
+    </select>
+
+    <input *ngSwitchDefault placeholder="{{elem2.label}}" type="{{elem2.type}}" value="" name="{{elem2.name}}"
+        formControlName="{{elem2.name}}" class="{{elem2.class}}" required="{{elem2.required}}" />
+
+</ng-container>
+
+<ng-container *ngIf="!isReactive" [ngSwitch]="elem2.type">
+
+    <input *ngSwitchCase="'radio'" type="radio" value="{{x}}" name="{{elem2.name}}" ngModel class="{{elem2.class}}"
+        required="{{elem2.required}}" />
+
+    <input *ngSwitchCase="'checkbox'" type="checkbox" name="{{elem2.name}}" ngModel class="{{elem2.class}}"
+        value="{{elem2.name}}" required="{{elem2.required}}" />
+
+    <select *ngSwitchCase="'select'" name="{{elem2.name}}" ngModel class="{{elem2.class}}" value="{{elem2.name}}"
+        required="{{elem2.required}}">
+        <option value="">Select</option>
+        <option *ngFor="let opt of elem2.option" value="{{opt}}">{{opt}}</option>
+    </select>
+
+    <input *ngSwitchDefault placeholder="{{elem2.label}}" type="{{elem2.type}}" value="" name="{{elem2.name}}" ngModel
+        class="{{elem2.class}}" required="{{elem2.required}}" />
+
 </ng-container>

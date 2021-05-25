@@ -1,0 +1,44 @@
+<div class="header">
+    <div>
+        <h1>Responsive Image Grid</h1>
+        <p>Select grid layout</p>
+        <button class="btn mr-2" [ngClass]="{'active': this.flexSize=='100%'}"
+            (click)="changeFlexSize('100%')">1</button>
+        <button class="btn mr-2" [ngClass]="{'active': this.flexSize=='50%'}" (click)="changeFlexSize('50%')">2</button>
+        <button class="btn mr-2" [ngClass]="{'active': this.flexSize=='33.3%'}"
+            (click)="changeFlexSize('33.3%')">3</button>
+        <button class="btn mr-2" [ngClass]="{'active': this.flexSize=='25%'}" (click)="changeFlexSize('25%')">4</button>
+        <button class="btn mr-2" [ngClass]="{'active': this.flexSize=='20%'}" (click)="changeFlexSize('20%')">5</button>
+    </div>
+    <div>
+        <h1>Load More imaged using:</h1>
+        <label for="button" class="mr-3">Load More Button
+            <input type="radio" name="loadType" [checked]="this.loadMoreButton" class="form-control mr-2" value="button" (click)="changeLoadType('button')">
+        </label>
+        <label for="scroll">On Window Scroll
+            <input type="radio" name="loadType" [checked]="!this.loadMoreButton"  class="form-control" value="scroll" (click)="changeLoadType('scroll')">
+        </label>
+    </div>
+</div>
+<div class="flex-gallery" appScroll (scrollingFinished)="onScrollingFinished()" *ngIf="!this.loadMoreButton">
+    <ng-container *ngFor="let item of imageData$ | async; let i=index">
+        <div class="flex-item" [ngStyle]="{'flex':this.flexSize}">
+            <img src="{{item.url}}" [dataSrc]="item.url" alt="{{item.title}}" class="img-responsive {{i}}" applazyload>
+        </div>
+    </ng-container>
+    <!-- <ul class="multiselect-list" >
+        <li *ngFor="let category of categories$ | async; let idx=index"  class="multiselect-list--option">
+          <input type="checkbox" id="{{ category }}" tabindex="{{ idx + 1 }}"/>
+          <label for="{{ category }}">{{ category }}</label>
+        </li>
+      </ul> -->
+</div>
+<div class="flex-gallery" *ngIf="this.loadMoreButton" #loadDiv>
+    <ng-container *ngFor="let item of imageData$ | async; let i=index">
+        <div class="flex-item" [ngStyle]="{'flex':this.flexSize}">
+            <img src="{{item.url}}" [dataSrc]="item.url" alt="{{item.title}}" class="img-responsive {{i}}" applazyload>
+        </div>
+    </ng-container>
+</div>
+<button class="btn mr-2" *ngIf="this.loadMoreButton" [ngClass]="{'active': this.flexSize=='25%'}"
+    (click)="onScrollingFinished()">Load More</button>

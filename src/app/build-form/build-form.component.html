@@ -1,0 +1,75 @@
+<ng-container [formGroup]="registrationForm">
+    <ng-container [ngSwitch]="elem.type">
+        <ng-container *ngSwitchCase="'radio'">
+            <label>
+                {{elem.label}}:
+            </label>
+            <br>
+            <ng-container *ngFor="let x of elem.option let j=index">
+                <label>
+                    {{x}}:
+                    <input type="radio" value="{{x}}" name="{{elem.name}}" formControlName="{{elem.name}}"
+                        class="{{elem.class}}" required="{{elem.required}}" />
+                </label>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngSwitchCase="'checkbox'">
+            <label>
+                {{elem.label}}:
+                <input type="checkbox" name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
+                    value="{{elem.name}}" required="{{elem.required}}" />
+            </label>
+        </ng-container>
+        <ng-container *ngSwitchCase="'select'">
+            <label>
+                {{elem.label}}:
+                <select name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
+                    value="{{elem.name}}" required="{{elem.required}}">
+                    <option value="">Select</option>
+                    <option *ngFor="let opt of elem.option" value="{{opt}}">{{opt}}</option>
+                </select>
+            </label>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+            <label>
+                {{elem.label}}:
+                <input type="{{elem.type}}" name="{{elem.name}}" formControlName="{{elem.name}}" class="{{elem.class}}"
+                    value="{{elem.name}}" required="{{elem.required}}" ngModel />
+            </label>            
+        </ng-container>
+    </ng-container>
+</ng-container>
+
+
+<!-- <ng-container [ngSwitch]="elem.type">
+    <ng-container *ngSwitchCase="'radio'">
+        <label>
+            {{elem.label}}:
+        </label>
+        <br>
+        <ng-container *ngFor="let x of elem.option let j=index">
+            <label>
+                {{x}}:
+                <app-input [elem2]="elem" [form]="registrationForm" [x]="x"></app-input>
+            </label>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'checkbox'">
+        <label>
+            {{elem.label}}:
+            <app-input [elem2]="elem" [form]="registrationForm" [x]=""></app-input>
+        </label>
+    </ng-container>
+    <ng-container *ngSwitchCase="'select'">
+        <label>
+            {{elem.label}}:
+            <app-input [elem2]="elem" [form]="registrationForm" [x]=""></app-input>
+        </label>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+        <label>
+            {{elem.label}}:
+            <app-input [elem2]="elem" [form]="registrationForm" [x]=""></app-input>
+        </label>            
+    </ng-container>
+</ng-container> -->

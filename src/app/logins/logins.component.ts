@@ -81,7 +81,7 @@ export class LoginsComponent implements OnInit {
     this.isLoggedin = true;
     if(isFormValid) {
       this.loggedInDetails = true;
-      this.signInTitle = 'Sign in using Email';
+      this.signInTitle = 'Signed in using Email';
       this.socialUser.name = formData.email;
       this.socialUser.email = formData.email;
       this.socialUser.photoUrl = 'https://via.placeholder.com/90';
@@ -93,11 +93,11 @@ export class LoginsComponent implements OnInit {
   public socialSignIn(socialPlatform: string) {
     let socialPlatformProvider;
     if (socialPlatform === 'facebook') {
-      this.signInTitle = 'Sign in using Facebook';
+      this.signInTitle = 'Signed in using Facebook';
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
     } else if (socialPlatform === 'google') {
       //socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-      this.signInTitle = 'Sign in using Google';
+      this.signInTitle = 'Signed in using Google';
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     }
 

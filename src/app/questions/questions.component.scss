@@ -28,6 +28,10 @@
         }   
     }
     
+    .error {
+        color: #e01;
+    }
+
     .question-content-row {
 
         .question-header {
@@ -41,12 +45,20 @@
             }
         }
         .question-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            div {width: 100%;}
             a {
                 text-decoration: none;
                 color:#d5d5d5;    
                 font-size: 18px;
                 .fa-60{
                     font-size: 60px;
+                }
+                .active {
+                    cursor: pointer;
+                    color: #4caf50;
                 }
                 &:hover,&:visited {
                     cursor: pointer;

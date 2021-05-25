@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -8,10 +7,12 @@ import { FormGroup } from '@angular/forms';
 })
 export class InputComponent implements OnInit {
 
-  @Input() elem : any = {}
+  @Input() elem2 : any = {}
   @Input('form') registrationForm: any = {};
-  @Input() submitted: boolean = false;
-  @Input() f : any = {}
+  // @Input() submitted: boolean = false;
+  // @Input() f : any = {}
+  @Input() x : any = '';
+  @Input() isReactive : boolean = true;
 
   constructor() { }
 

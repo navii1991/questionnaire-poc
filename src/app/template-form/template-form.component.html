@@ -1,0 +1,95 @@
+<div class="row">
+    <div class="col-sm-8 template-form-container">
+        <h3 class="mb-5">{{form.name}}</h3>
+        <form #registrationForm="ngForm" (ngSubmit)="onSubmit()">
+            <!-- <ng-container *ngFor="let elem of form.formElem let i=index">
+               <app-build-form [elem]="elem" [form]="" [submitted]="submitted" [f]="f" [isReactive]="false" ></app-build-form>
+               <app-input [elem2]="elem" [form]="" [isReactive]="false"></app-input>
+               <app-error-msg ctrl="{{'#'+elem.name}}" [name]="elem.label" [submitted]="submitted" ></app-error-msg>
+               <br>
+            </ng-container> -->
+            <label>
+                Title
+                <select name="title" ngModel #title="ngModel" class="form-control" required>
+                    <option value="">Select</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss.">Miss.</option>
+                </select>
+            </label>
+            <app-error-msg [ctrl]="title" [name]="'title'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                First Name:
+                <input type="text" name="firstName" class="form-control" value="" required="true" ngModel
+                    #firstName="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="firstName" [name]="'first name'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                Last Name:
+                <input type="text" name="lastName" class="form-control" value="" required="true" ngModel
+                    #lastName="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="lastName" [name]="'last name'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                Email:
+                <input type="email" name="email" class="form-control" value="" required="true" ngModel
+                    #email="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="email" [name]="'email'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                Password:
+                <input type="password" name="password" class="form-control" value="" required="true" ngModel
+                    #password="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="password" [name]="'password'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                Confirm Password:
+                <input type="text" name="confirmPassword" class="form-control" value="" required="true" ngModel
+                    #confirmPassword="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="confirmPassword" [name]="'confirm password'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                DOB:
+                <input type="date" name="dob" class="form-control" value="" required="true" ngModel #dob="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="dob" [name]="'dob'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                Gender:
+            </label>
+            <br>
+            <label>
+                Male:
+                <input type="radio" name="gender" class="form-control mr-3 ml-2" value="male" required="true" ngModel
+                    #gender="ngModel" />
+            </label>
+            <label>
+                Female:
+                <input type="radio" name="gender" class="form-control mr-3 ml-2" value="female" required="true" ngModel
+                    #gender="ngModel" />
+            </label>
+            <label>
+                Other:
+                <input type="radio" name="gender" class="form-control mr-3 ml-2" value="other" required="true" ngModel
+                    #gender="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="gender" [name]="'gender'" [submitted]="submitted"></app-error-msg>
+            <br>
+            <label>
+                Accept Terms & Conditions:
+                <input type="checkbox" name="agree" class="form-control mt-3 ml-3" value="" required="true" ngModel
+                    #agree="ngModel" />
+            </label>
+            <app-error-msg [ctrl]="agree" [name]="'agree'" [submitted]="submitted"></app-error-msg>
+
+            <button [disabled]="!registrationForm.valid" class="{{form.formButton.class}}"
+                type="{{form.formButton.type}}">{{form.formButton.name}}</button>
+        </form>
+    </div>
+</div>

@@ -31,9 +31,7 @@ export class ErrorMsgComponent implements OnInit {
     let name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
     let msgArr = [];
     for (const item in this.ctrl.errors) {
-      console.log(item);
       msgArr.push(this.ERROR_MESSAGE[item](this.ctrl.getError(item),name));
-
     }
     return msgArr;
   }
