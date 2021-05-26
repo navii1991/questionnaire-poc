@@ -6,20 +6,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/questions">Questionnaire <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/reactive-form">Reactive Form</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/template-form">Template Driven Form</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/logins">Social Logins</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/gallery">Gallery</a>
+            <li class="nav-item" routerLinkActive="active" *ngFor="let link of this.links">
+                <a class="nav-link" *ngIf="link.label!=''" routerLink="/{{link.link}}">{{link.label}}</a>
             </li>
         </ul>
         <span class="navbar-text">

@@ -6,7 +6,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  
+  links = [
+    {
+      label: 'Reactive Form',
+      link: 'reactive-form'
+    },
+    {
+      label: 'Template Form',
+      link: 'template-form'
+    },
+    {
+      label: 'Questionnaire',
+      link: 'questions'
+    },
+    {
+      label: 'Social Logins',
+      link: 'logins'
+    },
+    {
+      label: 'Gallery',
+      link: 'gallery'
+    },
+    {
+      label: '',
+      link: ''
+    }
 
+  ]
   constructor() { }
 
   ngOnInit(): void {
