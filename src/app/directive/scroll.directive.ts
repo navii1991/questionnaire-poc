@@ -5,12 +5,9 @@ import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/c
 })
 export class ScrollDirective {
   @Output() scrollingFinished = new EventEmitter<void>();
-  @Input() loadMoreBtn = false;
+
   emitted = false;
 
-  // if(this.loadMoreBtn:boolean) {
-  
-  // }
   @HostListener("window:scroll", [])
   onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !this.emitted) {
@@ -20,8 +17,6 @@ export class ScrollDirective {
       this.emitted = false;
     }
   }
-  constructor() { 
-    this.loadMoreBtn = false;
-  }
+  constructor() {}
 
 }

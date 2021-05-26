@@ -15,11 +15,12 @@ export class ImgGalleryComponent implements OnInit {
   categories$: Observable<Array<string>> = new Observable();
   imageData$: Observable<Photo[]> = new Observable();
   loadMoreButton:boolean = true;
+  loadSize: number = 20;
 
   constructor(private httpService: HttpService) {
     this.imageData$ = this.httpService.imageData$;
-  //  this.categories$ = this.httpService.categories$;
-   }
+    this.httpService.loadSize = this.loadSize;
+  }
 
   ngOnInit(): void {}
 
@@ -32,11 +33,13 @@ export class ImgGalleryComponent implements OnInit {
     this.flexSize = size;
   }
   
-  ngOnDestroy() {
-    //Close the Observable stream
-    //this.http.imageData$.unsubscribe();
-  }
   changeLoadType(loadType: string) {
     this.loadMoreButton = !this.loadMoreButton
   }
+
+  changeLoadSize(loadSize: number) {
+    this.loadSize = loadSize;
+    this.httpService.loadSize = this.loadSize;
+  }
+  
 }
