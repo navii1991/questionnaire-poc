@@ -56,7 +56,7 @@
                 .fa-60{
                     font-size: 60px;
                 }
-                .active {
+                .active, &.active {
                     cursor: pointer;
                     color: #4caf50;
                 }

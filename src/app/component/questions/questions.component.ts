@@ -1,6 +1,6 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Question } from 'src/app/model/question.interface';
 
 @Component({
   selector: 'app-questions',
@@ -8,20 +8,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
   styleUrls: ['./questions.component.scss']
 })
 export class QuestionsComponent implements OnInit {
-  
-  step = 0;
-
-  appPlatform: string[] = []
-  questionAnswered: {
-    platform: {
-      ios: boolean,
-      android: boolean,
-      window: boolean
-    },
-    app: string,
-    ui: string[],
-    registration: string
-  };
   
   questions = [
     {
@@ -55,13 +41,14 @@ export class QuestionsComponent implements OnInit {
     {
       type: 'icon',
       inputType: '',
+      formGroupName: 'ui',
       questionConfig: {
         topic: 'UI Type',
         label: 'What kind of UI do you prefer?',
         options: [
-          {name:'fa-columns', label:'Basic UI/UX', subText:'(good for basic MVPs)',controlName:'ios1'},
-          {name:'fa-clone', label:'Custom UI', subText:'(When you want to stand out explicitly)',controlName:'ios2'},
-          {name:'fa-spinner', label:'Animation', subText:'(When it’s a game, kids, or simulation app)',controlName:'ios3'}
+          {name:'fa-columns', label:'Basic UI/UX', subText:'(good for basic MVPs)',controlName:'basic'},
+          {name:'fa-clone', label:'Custom UI', subText:'(When you want to stand out explicitly)',controlName:'custom'},
+          {name:'fa-spinner', label:'Animation', subText:'(When it’s a game, kids, or simulation app)',controlName:'animated'}
         ]
       }
     },
@@ -82,8 +69,15 @@ export class QuestionsComponent implements OnInit {
     }
   ]
 
+  step = 0;
+
+  appPlatform: string[] = []
+  questionAnswered: Question;
+
   profileForm = new FormGroup({});
-  moveToNextQuestion: boolean = false;
+  moveToNextQuestion: boolean = true;
+  showError: boolean = false;
+  moveToNext : string[] = [];
 
   constructor(private fb: FormBuilder) {
     this.questionAnswered = {
@@ -93,56 +87,94 @@ export class QuestionsComponent implements OnInit {
         window: false
       },
       app: "",
-      ui: ['ss'],
-      registration: "sdsdsd"
+      ui: {
+        basic: false,
+        custom: false,
+        animated: false
+      },
+      registration: {
+        otp: false,
+        social: false,
+        email: false,
+        noSignup: false
+      }
     }
    }
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
       platform:  new FormGroup({
-        ios: new FormControl(''),
-        android: new FormControl(''),
-        window: new FormControl('')
+        ios: new FormControl(false),
+        android: new FormControl(false),
+        window: new FormControl(false)
       }),
       app: ['',[Validators.required]],
-      ui: this.fb.array([
-        this.fb.control('')
-      ]),
+      ui: new FormGroup({
+        basic: new FormControl(false),
+        custom: new FormControl(false),
+        animated: new FormControl(false)
+      }),
       registration: new FormGroup({
-        phone: new FormControl(false),
+        otp: new FormControl(false),
         social: new FormControl(false),
         email: new FormControl(false),
         noSignup: new FormControl(false)
       }),
     });
   }
+  
+  get f() { return this.profileForm.controls; }
 
-  selectIcon(e:any,iconName: string,topic:string|undefined): void {
-    e.target.classList.toggle('active');
+  selectIcon(e:any,iconName: string,topic:string|undefined,index:number): void {
+    e.currentTarget.classList.toggle('active');
     iconName=='ios' ? this.questionAnswered.platform.ios = !this.questionAnswered.platform.ios : '';
     iconName=='android' ? this.questionAnswered.platform.android = !this.questionAnswered.platform.android : '';
     iconName=='window' ? this.questionAnswered.platform.window = !this.questionAnswered.platform.window : '';
-    //this.questionAnswered.platform.ios = !this.questionAnswered.platform.ios;
+    iconName=='basic' ? this.questionAnswered.ui.basic = !this.questionAnswered.ui.basic : '';
+    iconName=='custom' ? this.questionAnswered.ui.custom = !this.questionAnswered.ui.custom : '';
+    iconName=='animated' ? this.questionAnswered.ui.animated = !this.questionAnswered.ui.animated : '';
+    
     this.profileForm.patchValue({
       platform: {
         ios: this.questionAnswered.platform.ios,
         android: this.questionAnswered.platform.android,
         window: this.questionAnswered.platform.window,
+      },
+      ui: {
+        basic: this.questionAnswered.ui.basic,
+        custom: this.questionAnswered.ui.custom,
+        animated: this.questionAnswered.ui.animated
+      },
+      registration: {
+        otp: this.questionAnswered.registration.otp,
+        social: this.questionAnswered.registration.social,
+        email: this.questionAnswered.registration.email,
+        noSignup: this.questionAnswered.registration.noSignup
       }
     });
-   //this.profileForm.patchValue({platform:['xxxxxx']});
-    //console.log(this.profileForm.get('platform').setValue(['ss']));
-  
     
+    this.moveToNextValidation(index);
+    
+  }
 
+  moveToNextValidation(index:number) {
+    (this.questionAnswered.platform.ios || this.questionAnswered.platform.android || this.questionAnswered.platform.window) ? this.moveToNext.push(`next${index}`) : '';
+    (this.questionAnswered.app != '') ? this.moveToNext.push(`next${index}`) : '';
+    (this.questionAnswered.ui.basic || this.questionAnswered.ui.custom || this.questionAnswered.ui.animated) ? this.moveToNext.push(`next${index}`) : '';
+    (this.questionAnswered.registration.otp || this.questionAnswered.registration.social || this.questionAnswered.registration.email || this.questionAnswered.registration.noSignup) ? this.moveToNext.push(`next${index}`) : '';
   }
 
   toggleQuestion(n:number) {
-    console.log(this.profileForm.valid)
-    console.log(this.profileForm.value)
-    //this.profileForm.controls.p
-    this.moveToNextQuestion ? this.step = n : '';
+    console.log(this.profileForm.valid);   
+    this.moveToNext.includes(`next${n-1}`) ? this.moveToNextQuestion = true : this.moveToNextQuestion = false;
+ 
+    if(this.moveToNextQuestion) {
+      this.step = n;
+      this.moveToNextQuestion = false;
+      this.showError = false;
+    } else {
+      this.showError = true;
+    }
   }
 
 }

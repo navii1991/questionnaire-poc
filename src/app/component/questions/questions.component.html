@@ -1,0 +1,70 @@
+<div class="row questions-container">
+    <div class="col-sm-12">
+        <h3 class="question-heading mb-4">App Cost Calculator</h3>
+        <ul class="nav question-counter mb-4">
+            <li *ngFor="let question of questions let i=index" [ngClass]="{'active': step>=i}"
+                (click)="step>=i && toggleQuestion(i)">{{i+1}}</li>
+        </ul>
+    </div>
+
+    <form [formGroup]="profileForm">
+        <ng-container *ngFor="let question of questions let i=index">
+            <div *ngIf="step== i" class="col-sm-12 question-content-row">
+                <div class="question-header">
+                    <h4 class="topic">{{question.questionConfig.topic}}</h4>
+                    <label class="question-label">{{question.questionConfig.label}}</label>
+                </div>
+                <span *ngIf="showError" class="error">Please select atleast one</span>
+                <div class="row question-content m-5">
+                    <ng-container *ngIf="question.type=='icon'" formGroupName="{{question.formGroupName}}">
+                        <div class="col-xs-4 col-sm-4" *ngFor="let opt of question.questionConfig.options let j=index">
+                            <a (click)="selectIcon($event,opt.controlName,question.formGroupName,i)" ><i
+                                    class="fa {{opt.name}} fa-60"></i><br>{{opt.label}}<br>{{opt.subText}}</a>
+                            <!-- <input type="hidden" name="{{question.questionConfig.topic}}" formControlName="{{opt.controlName}}" value="{{opt.name}}"> -->
+                        </div>
+                        <!-- <input type="hidden" name="{{question.questionConfig.topic}}" formArrayName="paltform" value="['ss','sdd']"> -->
+                    </ng-container>
+                    <ng-container *ngIf="question.type=='radio'">
+                        <div class="col-xs-6 col-sm-6 border p-2"
+                            *ngFor="let opt of question.questionConfig.options let j=index">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="{{opt.name}}"
+                                        formControlName="{{opt.name}}"
+                                        value="{{opt.label}}" (click)="moveToNextValidation(i)">{{opt.label}}<br>{{opt.subText}}
+                                </label>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="question.type=='checkbox'" formGroupName="{{question.formGroupName}}">
+                        <div class="col-xs-6 col-sm-6 border p-2"
+                            *ngFor="let opt of question.questionConfig.options let j=index">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="{{opt.name}}"
+                                        formControlName="{{opt.name}}"
+                                        value="{{opt.label}}" (click)="moveToNextValidation(i)">{{opt.label}}<br>{{opt.subText}}
+                                </label>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <pre>
+                    <!-- {{ profileForm?.getRawValue() | json }} -->
+                    <!-- {{ this.moveToNext }} -->
+                    
+                </pre>
+                <div class="row btn-container mb-5">
+                    <div class="col-sm-12">
+                        <span *ngIf="i>0" class="float-left previous" (click)="toggleQuestion(i-1)"><i
+                                class="fas fa-arrow-alt-circle-left fa-3x"></i></span>
+                        <button type="button" [ngClass]="{'disabled': questions.length == i+1}"
+                            class="btn btn-success btn-lg" (click)="toggleQuestion(i+1)"
+                            disabled="{{questions.length == i+1 ? 'disabled': ''}}">{{questions.length != i+1 ? 'Next' :
+                            'Submit'}}</button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </form>
+</div>

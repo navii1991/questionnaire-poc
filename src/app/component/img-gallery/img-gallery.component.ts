@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpService } from '../service/http.service';
-import { Photo } from './../models/photo.interface';
+import { HttpService } from '../../service/http.service';
+import { Photo } from './../../model/photo.interface';
 
 @Component({
   selector: 'app-img-gallery',

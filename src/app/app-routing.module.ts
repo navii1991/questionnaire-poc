@@ -1,12 +1,12 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './home-page/home-page.component';
-import { ImgGalleryComponent } from './img-gallery/img-gallery.component';
-import { LoginsComponent } from './logins/logins.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { QuestionsComponent } from './questions/questions.component';
-import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
-import { TemplateFormComponent } from './template-form/template-form.component';
+import { HomePageComponent } from './component/home-page/home-page.component';
+import { ImgGalleryComponent } from './component/img-gallery/img-gallery.component';
+import { LoginsComponent } from './component/logins/logins.component';
+import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { QuestionsComponent } from './component/questions/questions.component';
+import { ReactiveFormComponent } from './component/reactive-form/reactive-form.component';
+import { TemplateFormComponent } from './component/template-form/template-form.component';
 
 const routes: Routes = [
   {
