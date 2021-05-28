@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Question } from 'src/app/model/question.interface';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Platform, Question, Registration, UI } from 'src/app/model/question.interface';
 
 @Component({
   selector: 'app-questions',
@@ -27,6 +27,7 @@ export class QuestionsComponent implements OnInit {
     {
       type: 'radio',
       inputType: 'radio',
+      formGroupName: 'app',
       questionConfig: {
         topic: 'App',
         label: 'What kind of app is it going to be (offline/online)?',
@@ -72,7 +73,7 @@ export class QuestionsComponent implements OnInit {
   step = 0;
 
   appPlatform: string[] = []
-  questionAnswered: Question;
+  questionAnswered: Question | any;
 
   profileForm = new FormGroup({});
   moveToNextQuestion: boolean = true;
@@ -81,27 +82,25 @@ export class QuestionsComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.questionAnswered = {
-      platform: {
+      platform:<Platform> {
         ios: false,
         android: false,
         window: false
       },
       app: "",
-      ui: {
+      ui:<UI> {
         basic: false,
         custom: false,
         animated: false
       },
-      registration: {
+      registration:<Registration> {
         otp: false,
         social: false,
         email: false,
         noSignup: false
       }
     }
-   }
 
-  ngOnInit(): void {
     this.profileForm = this.fb.group({
       platform:  new FormGroup({
         ios: new FormControl(false),
@@ -121,11 +120,13 @@ export class QuestionsComponent implements OnInit {
         noSignup: new FormControl(false)
       }),
     });
-  }
+   }
+
+  ngOnInit(): void {}
   
   get f() { return this.profileForm.controls; }
 
-  selectIcon(e:any,iconName: string,topic:string|undefined,index:number): void {
+  selectIcon(e:any,iconName: string,topic:string,index:number): void {
     e.currentTarget.classList.toggle('active');
     iconName=='ios' ? this.questionAnswered.platform.ios = !this.questionAnswered.platform.ios : '';
     iconName=='android' ? this.questionAnswered.platform.android = !this.questionAnswered.platform.android : '';
@@ -153,28 +154,44 @@ export class QuestionsComponent implements OnInit {
       }
     });
     
-    this.moveToNextValidation(index);
+    this.moveToNextValidation(e,index,topic);
     
   }
 
-  moveToNextValidation(index:number) {
-    (this.questionAnswered.platform.ios || this.questionAnswered.platform.android || this.questionAnswered.platform.window) ? this.moveToNext.push(`next${index}`) : '';
-    (this.questionAnswered.app != '') ? this.moveToNext.push(`next${index}`) : '';
-    (this.questionAnswered.ui.basic || this.questionAnswered.ui.custom || this.questionAnswered.ui.animated) ? this.moveToNext.push(`next${index}`) : '';
-    (this.questionAnswered.registration.otp || this.questionAnswered.registration.social || this.questionAnswered.registration.email || this.questionAnswered.registration.noSignup) ? this.moveToNext.push(`next${index}`) : '';
+  moveToNextValidation(e:any,index:number, topic:string) {
+    console.log(e.currentTarget.checked)
+    if(index == 0)
+      (this.questionAnswered.platform.ios || this.questionAnswered.platform.android || this.questionAnswered.platform.window) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
+    if(index ==1)
+      (e.currentTarget.checked) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
+    if(index == 2)
+      (this.questionAnswered.ui.basic || this.questionAnswered.ui.custom || this.questionAnswered.ui.animated) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
+    if(index == 3)
+      (this.questionAnswered.registration.otp || this.questionAnswered.registration.social || this.questionAnswered.registration.email || this.questionAnswered.registration.noSignup) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
   }
 
-  toggleQuestion(n:number) {
-    console.log(this.profileForm.valid);   
-    this.moveToNext.includes(`next${n-1}`) ? this.moveToNextQuestion = true : this.moveToNextQuestion = false;
+  toggleQuestion(n:number, direction:string) {
+    console.log(this.profileForm.controls.app);  
+   // this.moveToNextValidation(n-1, '');
+    if(direction == 'forward') { 
+      this.moveToNext.includes(`next${n-1}`) ? this.moveToNextQuestion = true : this.moveToNextQuestion = false;
  
-    if(this.moveToNextQuestion) {
-      this.step = n;
-      this.moveToNextQuestion = false;
-      this.showError = false;
+      if(this.moveToNextQuestion) {
+        this.step = n;
+        this.moveToNextQuestion = false;
+        this.showError = false;
+      } else {
+        this.showError = true;
+      }
     } else {
-      this.showError = true;
+      this.step = n;
     }
+  }
+
+  getActiveClass(formGroup:string , formControl:string): boolean {
+     let json = this.questionAnswered[formGroup][formControl];
+     console.log(json);
+    return json;
   }
 
 }
