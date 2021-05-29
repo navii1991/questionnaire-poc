@@ -39,7 +39,7 @@ import { ScrollDirective } from './directive/scroll.directive';
     ScrollDirective
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
