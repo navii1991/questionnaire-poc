@@ -12,7 +12,7 @@
     "serve:ssr": "node dist/questionnaire-poc/server/main.js",
     "build:ssr": "ng build --prod && ng run questionnaire-poc:server:production",
     "prerender": "ng run questionnaire-poc:prerender",
-    "heroku-postbuild": "ng build --prod && ng run questionnaire-poc:server:production"
+    "heroku-postbuild": "npm run build:ssr"
   },
   "private": true,
   "dependencies": {
