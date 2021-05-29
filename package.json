@@ -11,7 +11,8 @@
     "dev:ssr": "ng run questionnaire-poc:serve-ssr",
     "serve:ssr": "node dist/questionnaire-poc/server/main.js",
     "build:ssr": "ng build --prod && ng run questionnaire-poc:server:production",
-    "prerender": "ng run questionnaire-poc:prerender"
+    "prerender": "ng run questionnaire-poc:prerender",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
