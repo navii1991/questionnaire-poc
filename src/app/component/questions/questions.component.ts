@@ -71,7 +71,7 @@ export class QuestionsComponent implements OnInit {
   ]
 
   step = 0;
-
+  submitted = false;
   appPlatform: string[] = []
   questionAnswered: Question | any;
 
@@ -79,6 +79,8 @@ export class QuestionsComponent implements OnInit {
   moveToNextQuestion: boolean = true;
   showError: boolean = false;
   moveToNext : string[] = [];
+
+  regCheckbox: string[] = [];
 
   constructor(private fb: FormBuilder) {
     this.questionAnswered = {
@@ -118,13 +120,18 @@ export class QuestionsComponent implements OnInit {
         social: new FormControl(false),
         email: new FormControl(false),
         noSignup: new FormControl(false)
-      }),
+      })
     });
    }
 
   ngOnInit(): void {}
   
   get f() { return this.profileForm.controls; }
+
+  getActiveClass(formGroup:string , formControl:string): boolean {
+    let json = this.questionAnswered[formGroup][formControl];
+    return json;
+  }
 
   selectIcon(e:any,iconName: string,topic:string,index:number): void {
     e.currentTarget.classList.toggle('active');
@@ -153,30 +160,35 @@ export class QuestionsComponent implements OnInit {
         noSignup: this.questionAnswered.registration.noSignup
       }
     });
-    
-    this.moveToNextValidation(e,index,topic);
-    
+
+    this.moveToNextValidation(e,index,topic,iconName);    
   }
 
-  moveToNextValidation(e:any,index:number, topic:string) {
-    console.log(e.currentTarget.checked)
+  moveToNextValidation(e:any,index:number, topic:string, label:string) {
     if(index == 0)
       (this.questionAnswered.platform.ios || this.questionAnswered.platform.android || this.questionAnswered.platform.window) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
-    if(index ==1)
+    if(index == 1)
       (e.currentTarget.checked) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
     if(index == 2)
       (this.questionAnswered.ui.basic || this.questionAnswered.ui.custom || this.questionAnswered.ui.animated) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
-    if(index == 3)
-      (this.questionAnswered.registration.otp || this.questionAnswered.registration.social || this.questionAnswered.registration.email || this.questionAnswered.registration.noSignup) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
+    if(index == 3) {
+      this.regCheckbox.includes(label) ? this.regCheckbox = this.regCheckbox.filter((value) =>{ return value != label;}) : this.regCheckbox.push(label);
+      (this.regCheckbox.length>0) ? this.moveToNext.push(`next${index}`) : this.moveToNext = this.moveToNext.filter((value) =>{ return value != `next${index}`;});
+    }
+
+    this.showError = false;  
   }
 
   toggleQuestion(n:number, direction:string) {
     console.log(this.profileForm.controls.app);  
-   // this.moveToNextValidation(n-1, '');
     if(direction == 'forward') { 
       this.moveToNext.includes(`next${n-1}`) ? this.moveToNextQuestion = true : this.moveToNextQuestion = false;
  
       if(this.moveToNextQuestion) {
+        if(n==this.questions.length) {
+          this.submitted = true;
+          return;
+        }
         this.step = n;
         this.moveToNextQuestion = false;
         this.showError = false;
@@ -188,10 +200,29 @@ export class QuestionsComponent implements OnInit {
     }
   }
 
-  getActiveClass(formGroup:string , formControl:string): boolean {
-     let json = this.questionAnswered[formGroup][formControl];
-     console.log(json);
-    return json;
+  restartQ(): void{
+    this.profileForm.reset();
+    this.questionAnswered = {
+      platform:<Platform> {
+        ios: false,
+        android: false,
+        window: false
+      },
+      app: "",
+      ui:<UI> {
+        basic: false,
+        custom: false,
+        animated: false
+      },
+      registration:<Registration> {
+        otp: false,
+        social: false,
+        email: false,
+        noSignup: false
+      }
+    }
+    this.step = 0;
+    this.submitted = false;
   }
 
 }
