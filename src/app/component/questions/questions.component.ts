@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Platform, Question, Registration, UI } from 'src/app/model/question.interface';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-questions',
@@ -73,7 +74,7 @@ export class QuestionsComponent implements OnInit {
   step = 0;
   submitted = false;
   appPlatform: string[] = []
-  questionAnswered: Question | any;
+  questionAnswered: Question;
 
   profileForm = new FormGroup({});
   moveToNextQuestion: boolean = true;
@@ -84,18 +85,18 @@ export class QuestionsComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.questionAnswered = {
-      platform:<Platform> {
+      platform: {
         ios: false,
         android: false,
         window: false
       },
       app: "",
-      ui:<UI> {
+      ui: {
         basic: false,
         custom: false,
         animated: false
       },
-      registration:<Registration> {
+      registration: {
         otp: false,
         social: false,
         email: false,
@@ -127,20 +128,27 @@ export class QuestionsComponent implements OnInit {
   ngOnInit(): void {}
   
   get f() { return this.profileForm.controls; }
-
+  
+  getProperty<T, K extends keyof T, P extends keyof T[K]>(obj: T, key: K, prop: P) {
+    return obj[key][prop]; // Inferred type is T[K]
+  }
   getActiveClass(formGroup:string , formControl:string): boolean {
-    let json = this.questionAnswered[formGroup][formControl];
-    return json;
+    
+    let isActive = _.get(this.questionAnswered[formGroup], formControl);
+    // let json = this.getProperty(this.questionAnswered, formGroup, formControl);
+    return isActive;
   }
 
-  selectIcon(e:any,iconName: string,topic:string,index:number): void {
+  selectIcon(e: any, iconName: string, topic: string, index: number): void {
     e.currentTarget.classList.toggle('active');
-    iconName=='ios' ? this.questionAnswered.platform.ios = !this.questionAnswered.platform.ios : '';
-    iconName=='android' ? this.questionAnswered.platform.android = !this.questionAnswered.platform.android : '';
-    iconName=='window' ? this.questionAnswered.platform.window = !this.questionAnswered.platform.window : '';
-    iconName=='basic' ? this.questionAnswered.ui.basic = !this.questionAnswered.ui.basic : '';
-    iconName=='custom' ? this.questionAnswered.ui.custom = !this.questionAnswered.ui.custom : '';
-    iconName=='animated' ? this.questionAnswered.ui.animated = !this.questionAnswered.ui.animated : '';
+    let defaultVal = _.get(this.questionAnswered[topic], iconName);
+    _.set(this.questionAnswered, [topic,iconName], !defaultVal);
+    // iconName=='ios' ? this.questionAnswered.platform.ios = !this.questionAnswered.platform.ios : '';
+    // iconName=='android' ? this.questionAnswered.platform.android = !this.questionAnswered.platform.android : '';
+    // iconName=='window' ? this.questionAnswered.platform.window = !this.questionAnswered.platform.window : '';
+    // iconName=='basic' ? this.questionAnswered.ui.basic = !this.questionAnswered.ui.basic : '';
+    // iconName=='custom' ? this.questionAnswered.ui.custom = !this.questionAnswered.ui.custom : '';
+    // iconName=='animated' ? this.questionAnswered.ui.animated = !this.questionAnswered.ui.animated : '';
     
     this.profileForm.patchValue({
       platform: {
@@ -160,7 +168,7 @@ export class QuestionsComponent implements OnInit {
         noSignup: this.questionAnswered.registration.noSignup
       }
     });
-
+    
     this.moveToNextValidation(e,index,topic,iconName);    
   }
 
@@ -180,7 +188,7 @@ export class QuestionsComponent implements OnInit {
   }
 
   toggleQuestion(n:number, direction:string) {
-    console.log(this.profileForm.controls.app);  
+   // console.log(this.profileForm.controls.app);  
     if(direction == 'forward') { 
       this.moveToNext.includes(`next${n-1}`) ? this.moveToNextQuestion = true : this.moveToNextQuestion = false;
  
@@ -203,18 +211,18 @@ export class QuestionsComponent implements OnInit {
   restartQ(): void{
     this.profileForm.reset();
     this.questionAnswered = {
-      platform:<Platform> {
+      platform: {
         ios: false,
         android: false,
         window: false
       },
       app: "",
-      ui:<UI> {
+      ui: {
         basic: false,
         custom: false,
         animated: false
       },
-      registration:<Registration> {
+      registration: {
         otp: false,
         social: false,
         email: false,
