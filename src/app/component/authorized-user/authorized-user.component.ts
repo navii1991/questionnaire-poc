@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SocialUser } from 'angularx-social-login';
 import { AuthService } from 'src/app/service/auth.service';
 
@@ -25,15 +26,17 @@ export class AuthorizedUserComponent implements OnInit {
   
 storage: Storage = window.localStorage;
 
-  constructor(private authService: AuthService) { 
+  constructor(private authService: AuthService, private router: Router) { 
     const userData = this.storage.getItem('currentUser');
     if(userData) {
-     console.log('user', JSON.parse(userData));
      this.authService.socialUser = JSON.parse(userData);
     }
     this.authService.socialUser$.subscribe((user: SocialUser)=>{
       this.currentUser = user;
     })
+    this.authService.authenticated$.subscribe((authorized: boolean)=>{
+      !authorized ? this.router.navigateByUrl('/logins') : '';
+    }) 
   }
 
   ngOnInit(): void {

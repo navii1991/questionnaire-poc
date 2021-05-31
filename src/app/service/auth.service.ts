@@ -43,9 +43,12 @@ export class AuthService {
     return this._socialUser;
   }
   
+  socialLogin = false;
+
   constructor(private http: HttpClient, private socialAuthService: SocialAuthService) { 
     this.socialAuthService.authState.subscribe((user: SocialUser) => {
       if(user != null) {
+        this.socialLogin = true;
         this.authenticated = true;
         this.socialUser = user;
         localStorage.setItem('token', this.socialUser.authToken);
@@ -95,6 +98,6 @@ export class AuthService {
   logout() {
     localStorage.clear(); // clear tokren, cartItems all
     this.authenticated = false;
-    this.socialAuthService.signOut(); 
+    this.socialLogin ? this.socialAuthService.signOut() : ''; 
   }
 }

@@ -52,7 +52,7 @@ export class LoginsComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { 
     this.authService.authenticated$.subscribe((authorized: boolean)=>{
-      authorized ? this.router.navigateByUrl('/user') : this.router.navigateByUrl('/logins');
+      authorized ? this.router.navigateByUrl('/user') : '';
     }) 
   }
 
