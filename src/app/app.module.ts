@@ -20,6 +20,7 @@ import { BuildFormComponent } from './component/build-form/build-form.component'
 import { ImgGalleryComponent } from './component/img-gallery/img-gallery.component';
 import { LazyLoadDirective } from './directive/lazy-load.directive';
 import { ScrollDirective } from './directive/scroll.directive';
+import { AuthorizedUserComponent } from './component/authorized-user/authorized-user.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ScrollDirective } from './directive/scroll.directive';
     BuildFormComponent,
     ImgGalleryComponent,
     LazyLoadDirective,
-    ScrollDirective
+    ScrollDirective,
+    AuthorizedUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

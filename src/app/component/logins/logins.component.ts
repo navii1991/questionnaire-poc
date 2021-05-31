@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUser } from 'angularx-social-login';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-logins',
@@ -9,22 +10,7 @@ import { SocialAuthService, FacebookLoginProvider, GoogleLoginProvider, SocialUs
 export class LoginsComponent implements OnInit {
   
   signInTitle: string = 'Sign in';
-  btnDisabled = false;
-  socialUser: SocialUser = {
-    provider: '',
-    id: '',
-    email: '',
-    name: '',
-    photoUrl: '',
-    firstName: '',
-    lastName: '',
-    authToken: '',
-    idToken: '',
-    authorizationCode: '',
-    response: {}
-};
   isLoggedin: boolean = false;
-  loggedInDetails = false;
   
   form = {
     name: "Reactive Form",
@@ -64,62 +50,24 @@ export class LoginsComponent implements OnInit {
     }
   }
 
-  constructor(private socialAuthService: SocialAuthService) { }
-
-  ngOnInit(): void {
-    this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
-      this.isLoggedin = (user != null);
-      this.loggedInDetails = true;
-      console.log(this.socialUser);
-    });
+  constructor(private authService: AuthService, private router: Router) { 
+    this.authService.authenticated$.subscribe((authorized: boolean)=>{
+      authorized ? this.router.navigateByUrl('/user') : this.router.navigateByUrl('/logins');
+    }) 
   }
 
-  //get f() { return this.loginForm.controls; }
+  ngOnInit(): void {}
+
 
   signIn(formData:any, isFormValid:boolean|null) {
     this.isLoggedin = true;
     if(isFormValid) {
-      this.loggedInDetails = true;
-      this.signInTitle = 'Signed in using Email';
-      this.socialUser.name = formData.email;
-      this.socialUser.email = formData.email;
-      this.socialUser.photoUrl = 'https://via.placeholder.com/90';
-      console.log(formData);
-      console.log(isFormValid);
+      this.authService.login(formData.email,formData.password, 'E');
     }    
   }
   
-  public socialSignIn(socialPlatform: string) {
-    let socialPlatformProvider;
-    if (socialPlatform === 'facebook') {
-      this.signInTitle = 'Signed in using Facebook';
-      this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-    } else if (socialPlatform === 'google') {
-      //socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-      this.signInTitle = 'Signed in using Google';
-      this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-    }
-
-    // this.socialAuthService.signIn(socialPlatformProvider).then(
-    //   (userData:any) => {
-    //     console.log(socialPlatform + ' sign in data : ' , userData);
-    //     // Now sign-in with userData
-    //   }
-    // );
-  }
-
-  // loginWithGoogle(): void {
-  //   this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  // }
-
-  // signInWithFB(): void {
-  //   this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  // }
-  logOut(): void {
-    this.isLoggedin = false;
-    this.loggedInDetails = false;
-    this.socialAuthService.signOut(); 
+  socialSignIn(socialPlatform: string) {
+    this.authService.login('','',socialPlatform);
   }
 
 }

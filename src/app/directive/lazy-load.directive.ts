@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostBinding, Input } from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[applazyload]'
@@ -6,19 +6,25 @@ import { Directive, ElementRef, HostBinding, Input } from '@angular/core';
 export class LazyLoadDirective {
   @HostBinding('attr.src') srcAttr = '';
   @Input() dataSrc: string = '';
-  constructor({ nativeElement }: ElementRef<HTMLImageElement>,private el: ElementRef) {
+  browserloading: boolean = false;
+
+  constructor(private el: ElementRef, private renderer: Renderer2) {
     const supports = 'loading' in HTMLImageElement.prototype;
     const intersectionObserver = "IntersectionObserver" in window;
-
-    if (!supports) {
-      nativeElement.setAttribute('loading', 'lazy');
-      this.el.nativeElement.setAttribute('src',this.dataSrc)
+    
+    if (supports) {
+      this.browserloading = true;
+      this.renderer.setAttribute(this.el.nativeElement, 'loading', 'lazy')
     } else if(intersectionObserver) {
         this.lazyLoadImage();
       } else {
-        this.loadImage();
-        //TODO: Load image via scroll function
+        //TODO: Load images via window.scroll function
+        //implemented window.scroll. See scroll.directive.ts
       }
+  }
+  
+  ngOnInit(): void {
+    this.browserloading ? this.loadImage() : '';
   }
 
   private lazyLoadImage() { 

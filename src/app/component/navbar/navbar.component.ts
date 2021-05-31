@@ -29,8 +29,8 @@ export class NavbarComponent implements OnInit {
       link: 'gallery'
     },
     {
-      label: '',
-      link: ''
+      label: 'Logged in User',
+      link: 'user'
     }
 
   ]
