@@ -31,6 +31,10 @@ export class NavbarComponent implements OnInit {
     {
       label: 'Logged in User',
       link: 'user'
+    },
+    {
+      label: 'Posts',
+      link: 'posts'
     }
 
   ]

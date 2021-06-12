@@ -5,12 +5,18 @@ import { HomePageComponent } from './component/home-page/home-page.component';
 import { ImgGalleryComponent } from './component/img-gallery/img-gallery.component';
 import { LoginsComponent } from './component/logins/logins.component';
 import { PageNotFoundComponent } from './component/page-not-found/page-not-found.component';
+import { PostsComponent } from './component/posts/posts.component';
 import { QuestionsComponent } from './component/questions/questions.component';
 import { ReactiveFormComponent } from './component/reactive-form/reactive-form.component';
 import { TemplateFormComponent } from './component/template-form/template-form.component';
 import { AuthGuard } from './directive/auth.guard';
 
 const routes: Routes = [
+  {
+    path: 'posts',
+    component: PostsComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'user',
     component: AuthorizedUserComponent,

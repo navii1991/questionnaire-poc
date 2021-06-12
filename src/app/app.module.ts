@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { HttpClientModule } from '@angular/common/http'
+import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { QuestionsComponent } from './component/questions/questions.component';
@@ -21,6 +22,9 @@ import { ImgGalleryComponent } from './component/img-gallery/img-gallery.compone
 import { LazyLoadDirective } from './directive/lazy-load.directive';
 import { ScrollDirective } from './directive/scroll.directive';
 import { AuthorizedUserComponent } from './component/authorized-user/authorized-user.component';
+import { PostsComponent } from './component/posts/posts.component';
+import { FilterCommentsPipe } from './directive/comment.pipe';
+import * as fromAppStore from './store/app.reducers';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,9 @@ import { AuthorizedUserComponent } from './component/authorized-user/authorized-
     ImgGalleryComponent,
     LazyLoadDirective,
     ScrollDirective,
-    AuthorizedUserComponent
+    AuthorizedUserComponent,
+    PostsComponent,
+    FilterCommentsPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -46,7 +52,8 @@ import { AuthorizedUserComponent } from './component/authorized-user/authorized-
     FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(fromAppStore.appReducer)
   ],
   providers: [
     {
